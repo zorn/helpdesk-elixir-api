@@ -52,7 +52,9 @@ defmodule Helpdesk.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:ash, "~> 2.13"},
       {:ash_postgres, "~> 1.3"},
-      {:ash_phoenix, "~> 1.2"}
+      {:ash_phoenix, "~> 1.2"},
+      {:ash_graphql, "~> 0.25.13"},
+      {:absinthe_plug, "~> 1.5"}
     ]
   end
 

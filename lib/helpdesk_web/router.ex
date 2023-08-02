@@ -14,10 +14,25 @@ defmodule HelpdeskWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :graphql do
+    plug AshGraphql.Plug
+  end
+
   scope "/", HelpdeskWeb do
     pipe_through :browser
 
     get "/", PageController, :home
+  end
+
+  scope "/" do
+    pipe_through [:graphql]
+
+    forward "/gql", Absinthe.Plug, schema: HelpdeskWeb.Schema
+
+    forward "/playground",
+            Absinthe.Plug.GraphiQL,
+            schema: HelpdeskWeb.Schema,
+            interface: :playground
   end
 
   # Other scopes may use custom stacks.
