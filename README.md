@@ -1,5 +1,15 @@
 # Helpdesk
 
+This is a small Elixir/Phoenix app that utilizes the Ash Framework and  and AshGraphql to provide a simple endpoint exposing some basic nouns including `Ticket` and `Representative` related to a helpdesk.
+
+## TODO
+
+* Allow queries based on status
+* Allow a query of a ticket to also return the info on the representative.
+* Experiment with pagination options.
+
+## Standard Phoenix README Stuff
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
