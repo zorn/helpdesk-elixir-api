@@ -47,6 +47,17 @@ defmodule Helpdesk.Support.Ticket do
       # The Representative itself is not modified in any way
       change manage_relationship(:representative_id, :representative, type: :append_and_remove)
     end
+
+    read :query_tickets do
+      argument :representative_id, :uuid
+      argument :status, Helpdesk.Support.Types.TicketStatus
+
+      filter(
+        expr do
+          is_nil(^arg(:representative_id)) or representative_id == ^arg(:representative_id)
+        end
+      )
+    end
   end
 
   # Attributes are the simple pieces of data that exist on your resource
@@ -92,16 +103,11 @@ defmodule Helpdesk.Support.Ticket do
     type :ticket
 
     queries do
-      # create a field called `get_ticket` that uses the `read` read action to fetch a single ticket
       get :get_ticket, :read
-
-      # create a field called `list_tickets` that uses the `read` read action to fetch a list of tickets
-      list :list_tickets, :read
+      list :list_tickets, :query_tickets
     end
 
     mutations do
-      # Examples
-
       create :create_ticket, :create
       update :update_ticket, :update
       destroy :destroy_ticket, :destroy
