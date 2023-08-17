@@ -13,7 +13,17 @@ defmodule Helpdesk.Support.Ticket do
 
   actions do
     # Add a set of simple actions. You'll customize these later.
-    defaults [:create, :read, :update, :destroy]
+    defaults [:create, :update, :destroy]
+
+    read :read do
+      primary? true
+
+      pagination(
+        keyset?: true,
+        default_limit: 5,
+        countable: true
+      )
+    end
 
     create :open do
       # By default you can provide all public attributes to an action
@@ -93,7 +103,7 @@ defmodule Helpdesk.Support.Ticket do
 
     queries do
       get :get_ticket, :read
-      list :list_tickets, :read
+      list :list_tickets, :read, relay?: true
     end
 
     mutations do
