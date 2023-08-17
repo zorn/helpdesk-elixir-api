@@ -49,25 +49,6 @@ defmodule Helpdesk.Support.Ticket do
       # The Representative itself is not modified in any way
       change manage_relationship(:representative_id, :representative, type: :append_and_remove)
     end
-
-    read :query_tickets do
-      argument :representative_id, :uuid
-      argument :status, Helpdesk.Support.Types.TicketStatus
-
-      prepare fn query, _ ->
-        query =
-          case Map.fetch(query.arguments, :representative_id) do
-            {:ok, nil} ->
-              Ash.Query.filter(query, is_nil(representative_id))
-
-            {:ok, representative_id} ->
-              Ash.Query.filter(query, representative_id == ^representative_id)
-
-            :error ->
-              query
-          end
-      end
-    end
   end
 
   # Attributes are the simple pieces of data that exist on your resource
@@ -114,7 +95,7 @@ defmodule Helpdesk.Support.Ticket do
 
     queries do
       get :get_ticket, :read
-      list :list_tickets, :query_tickets
+      list :list_tickets, :read
     end
 
     mutations do
