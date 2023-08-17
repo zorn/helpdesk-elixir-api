@@ -6,8 +6,6 @@ defmodule Helpdesk.Support.Ticket do
       AshGraphql.Resource
     ]
 
-  require Ash.Query
-
   postgres do
     table "tickets"
     repo Helpdesk.Repo
