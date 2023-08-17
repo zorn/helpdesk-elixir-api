@@ -6,6 +6,8 @@ defmodule Helpdesk.Support.Ticket do
       AshGraphql.Resource
     ]
 
+  require Ash.Query
+
   postgres do
     table "tickets"
     repo Helpdesk.Repo
@@ -52,11 +54,19 @@ defmodule Helpdesk.Support.Ticket do
       argument :representative_id, :uuid
       argument :status, Helpdesk.Support.Types.TicketStatus
 
-      filter(
-        expr do
-          is_nil(^arg(:representative_id)) or representative_id == ^arg(:representative_id)
-        end
-      )
+      prepare fn query, _ ->
+        query =
+          case Map.fetch(query.arguments, :representative_id) do
+            {:ok, nil} ->
+              Ash.Query.filter(query, is_nil(representative_id))
+
+            {:ok, representative_id} ->
+              Ash.Query.filter(query, representative_id == ^representative_id)
+
+            :error ->
+              query
+          end
+      end
     end
   end
 
