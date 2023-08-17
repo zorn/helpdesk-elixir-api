@@ -1,7 +1,10 @@
 defmodule Helpdesk.Support.Representative do
   # This turns this module into a resource using the in memory ETS data layer
   use Ash.Resource,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [
+      AshGraphql.Resource
+    ]
 
   postgres do
     table "representatives"
@@ -27,6 +30,21 @@ defmodule Helpdesk.Support.Representative do
     # We assume that the destination attribute is `representative_id` based
     # on the module name of this resource and that the source attribute is `id`.
     has_many :tickets, Helpdesk.Support.Ticket
+  end
+
+  graphql do
+    type :representative
+
+    queries do
+      get :get_representative, :read
+      list :list_representatives, :read
+    end
+
+    mutations do
+      create :create_representative, :create
+      update :update_representative, :update
+      destroy :destroy_representative, :destroy
+    end
   end
 
   aggregates do
