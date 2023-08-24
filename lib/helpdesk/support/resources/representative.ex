@@ -13,7 +13,17 @@ defmodule Helpdesk.Support.Representative do
 
   actions do
     # Add the default simple actions
-    defaults [:create, :read, :update, :destroy]
+    defaults [:create, :update, :destroy]
+
+    read :read do
+      primary? true
+
+      pagination(
+        keyset?: true,
+        default_limit: 5,
+        countable: true
+      )
+    end
   end
 
   # Attributes are the simple pieces of data that exist on your resource
@@ -37,7 +47,7 @@ defmodule Helpdesk.Support.Representative do
 
     queries do
       get :get_representative, :read
-      list :list_representatives, :read
+      list :list_representatives, :read, relay?: true
     end
 
     mutations do
