@@ -33,6 +33,14 @@ defmodule Helpdesk.Support.Representative do
 
     # Add a string type attribute called `:name`
     attribute :name, :string
+
+    create_timestamp :inserted_at do
+      private? false
+    end
+
+    update_timestamp :updated_at do
+      private? false
+    end
   end
 
   relationships do

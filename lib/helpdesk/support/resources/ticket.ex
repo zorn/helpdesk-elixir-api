@@ -86,6 +86,14 @@ defmodule Helpdesk.Support.Ticket do
       # We also don't want status to ever be `nil`
       allow_nil? false
     end
+
+    create_timestamp :inserted_at do
+      private? false
+    end
+
+    update_timestamp :updated_at do
+      private? false
+    end
   end
 
   relationships do
